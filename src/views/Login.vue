@@ -63,7 +63,7 @@
       @accept="loginProcess"
       @close="modal.visible = false"
     />
-    <span>¿No tienes cuenta? <a>Registrate</a></span>
+    <span>¿No tienes cuenta? <router-link class="logo" :to="{name:'Signup'}">Registrate</router-link></span>
   </div>
 </template>
 

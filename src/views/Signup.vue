@@ -1,7 +1,7 @@
 <template>
   <div class="main-content">
     <form @submit.prevent="signUpProcess">
-      <h1>Registrarse</h1>
+      <h1>REGISTRARSE</h1>
       <div class="inputs">
         <div class="icons">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -125,7 +125,7 @@
       @accept="signUpProcess"
       @close="modal.visible = false"
     />
-    <span>¿Ya tienes Cuenta? <a>Inicia Sesión</a></span>
+    <span>¿Ya tienes Cuenta? <router-link class="logo" :to="{name:'Login'}">Inicia Sesión</router-link></span>
   </div>
 </template>
 
