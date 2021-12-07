@@ -205,7 +205,7 @@ export default {
     },
     async saveImage() {
       const storageRef = app.storage().ref();
-      const filePath = storageRef.child(this.file.name);
+      const filePath = storageRef.child(this.book.title);
       await filePath.put(this.file);
       this.book.poster = await filePath.getDownloadURL();
     },

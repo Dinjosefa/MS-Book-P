@@ -2,19 +2,19 @@
   <div class="component">
     <div class="first-container">
       <div class="container-image">
-        <img :src="InventoryDetailById.poster" onerror="this.onerror=null; this.src='https://firebasestorage.googleapis.com/v0/b/proyectociclo4-447aa.appspot.com/o/NotFound.svg?alt=media&token=1d1ae5f3-146d-4edf-bb6a-5fff39c6b96d'" @error="this.border = '.1rem solid var(--border-input)'" :style="{ border: border }" :alt="InventoryDetailById.title" />
+        <img :src="book.poster" onerror="this.onerror=null; this.src='https://firebasestorage.googleapis.com/v0/b/proyectociclo4-447aa.appspot.com/o/NotFound.svg?alt=media&token=1d1ae5f3-146d-4edf-bb6a-5fff39c6b96d'" @error="this.border = '.1rem solid var(--border-input)'" :style="{ border: border }" :alt="book.title" />
       </div>
       <div class="container-info">
         <div class="info">
           <h1>
-            {{ InventoryDetailById.title }}
+            {{ book.title }}
             <!-- <button class="little-button">Editar</button> -->
           </h1>
-          <h2><i>Author:</i> {{ InventoryDetailById.author }}</h2>
-          <span><i>Año:</i> {{ InventoryDetailById.year }} </span>
-          <span><i>Editorial:</i> {{ InventoryDetailById.editorial }} </span>
-          <span><i>Genero:</i> {{ InventoryDetailById.category }} </span>
-          <span><i>ISBN:</i> {{ InventoryDetailById.isbn }} </span>
+          <h2><i>Author:</i> {{ book.author }}</h2>
+          <span><i>Año:</i> {{ book.year }} </span>
+          <span><i>Editorial:</i> {{ book.editorial }} </span>
+          <span><i>Genero:</i> {{ book.category }} </span>
+          <span><i>ISBN:</i> {{ book.isbn }} </span>
           <span><i>Tiempo de Prestamo:</i> 20 días </span>
           <!-- <a href="https://ezproxy.biblored.gov.co:2152/a/28075/">Ir a contenido real</a> -->
         </div>
@@ -24,14 +24,14 @@
       </div>
     </div>
     <div class="second-container">
-      <p>{{ InventoryDetailById.resume }}</p>
+      <p>{{ book.resume }}</p>
       <button
         @click="makeLoan"
-        :class="InventoryDetailById.status != 1 ? 'disabled' : ''"
-        :disabled="InventoryDetailById.status != 1"
+        :class="book.status != 1 ? 'disabled' : ''"
+        :disabled="book.status != 1"
         class="main-button | tooltip"
       >
-        <span class="tooltiptext" v-if="InventoryDetailById.status != 1">No Disponible</span
+        <span class="tooltiptext" v-if="book.status != 1">No Disponible</span
         >Prestamo
       </button>
     </div>
@@ -51,21 +51,9 @@ export default {
         name: null,
       },
       border: ".1rem solid transparent",
-      book: null,
-      InventoryDetailById: {
-        inventoryDetailById: {
-          id: null,
-          title: null,
-          author: null,
-          year: null,
-          category: null,
-          editorial: null,
-          status: null,
-          isbn: null,
-          poster: require("@/assets/images/NotFound.svg"),
-          resume: null,
-        },
-      },
+      book: {
+        poster: "https://firebasestorage.googleapis.com/v0/b/proyectociclo4-447aa.appspot.com/o/NotFound.svg?alt=media&token=1d1ae5f3-146d-4edf-bb6a-5fff39c6b96d",
+      }
     };
   },
   apollo: {
@@ -99,14 +87,15 @@ export default {
   },
   methods: {
     getData() {
-      document.title = this.InventoryDetailById.title;
+      this.book = this.InventoryDetailById;
+      document.title = this.book.title;
     },
     cancel() {
       this.$router.push({ name: "Home" });
       window.scrollTo(0, 0);
     },
     makeLoan() {
-      if (InventoryDetailById.status != 1) {
+      if (book.status != 1) {
       }
       moment.locale("es-CO");
       // let dateStart = moment().format("L");
