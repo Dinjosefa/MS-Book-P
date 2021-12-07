@@ -1,0 +1,168 @@
+{
+    "title": "Los Hijos De Los Días",
+    "author": "Eduardo Galeano",
+    "year": 2012,
+    "category": "Relatos",
+    "editorial": "Siglo XIX",
+    "status": 1,
+    "isbn": "9788432316272",
+    "poster":"https://firebasestorage.googleapis.com/v0/b/films-d5beb.appspot.com/o/P-012012.webp?alt=media&token=540e1d20-350d-4e51-97fd-851f76b33686",
+    "resume":"¿Sabía usted... que el episodio más popular del catecismo católico, Adán y Eva mordiendo la manzana, en la Biblia no figura?... que el griego Eratóstenes midió la cintura del mundo, hace dos mil trescientos años, y se equivocó en noventa kilómetros?... que Aristóteles escribió sobre la mujer que es «un hombre incompleto», y Santo Tomás de Aquino, que es un «error de la naturaleza»?... que hasta 1990 la homosexualidad fue una enfermedad mental, según la Organización Mundial de la Salud?... que al entierro de Karl Marx acudieron sólo once personas, contando al enterrador?... que hasta el año 2008 Nelson Mandela integró la lista de terroristas más peligrosos para la seguridad de Estados Unidos?... que en Haití, según una antigua tradición, el cortejo fúnebre debe conducir el ataúd en zig-zag para despistar al difunto y que ya no pueda encontrar el camino de regreso?... que cada dos semanas muere una lengua?."
+        }
+	{
+		"title": "Mujercitas",
+        "author": "Louisa May Alcott",
+		"year": 1868,
+		"category": "Romance",
+		"editorial": "Verbum",
+		"status": 1,
+		"isbn": "9788490748374",
+		"poster": "require('@/assets/images/P-021868.webp')",
+		"resume":
+			"Mujercitas cuenta la historia de las hermanas March: Meg, Beth, Amy y Jo. El relato transcurre en un pueblo de Nueva Inglaterra mientras la guerra civil estadounidense hacía estragos en todo el país. Es un relato delicioso y emotivo que narra la historia de la familia. En la narración asistimos a los enamoramientos y a las aspiraciones intelectuales de las jóvenes hermanas, a las que vamos viendo crecer en busca de un espíritu de libertad individual, algo inusual para una época dominada por un ideal romántico puritano. Desde sus marcadas personalidades, las jóvenes participan en la búsqueda de la felicidad de la vida familiar con la enfermedad, la guerra y el amor como ingredientes principales en sus vidas."
+	}
+	{
+		"title": "Rayuela",
+		"author": "Julio Cortázar",
+		"year": 1963,
+		"category": "Romance",
+		"editorial": "Sudamericana",
+		"status": 1,
+		"isbn": "9789500701983",
+		"poster": "require('@/assets/images/P-031963.webp')",
+		"resume": "El amor turbulento de Oliveira y La Maga, los amigos del Club de la Serpiente, los caminos por París en busca del cielo y el infierno tienen su contracara en la aventura simétrica de Oliveira, Talita y Traveler en una Buenos Aires teñida por el recuerdo. El orden de una historia y el lenguaje para contarla es transgredido, resultando un libro único, abierto a múltiples lecturas, lleno de humor, riesgo y una originalidad sin precedentes."
+	},
+	{
+		"title": "Historia De Dos Ciudades",
+		"author": "Charles Dickens",
+		"year": 1859,
+		"category": "Historico",
+		"editorial": "Verbum",
+		"status": 1,
+		"isbn": "9788490749173",
+		"poster": "require('@/assets/images/P-041859.webp')",
+		"resume": "Un clásico indispensable inspirado en la Revolución Francesa. Dickens nos ofrece un panorama de personajes cuyas humildes vidas se ven trastornadas por el estallido de un terrible suceso histórico. La historia transcurre entre Londres y París durante la época de la Revolución Francesa; una revolución que se presenta como un justo castigo a la aristocracia por los siglos de explotación y maltrato del pueblo."
+	},
+	{
+		"title": "Orgullo Y Prejuicio",
+		"author": "Jane Austen",
+		"year": 1813,
+		"category": "Romance",
+		"editorial": "Alma Clasicos",
+		"status": 1,
+		"isbn": "9788415618782",
+		"poster": "require('@/assets/images/P-051813.webp')",
+		"resume": "Es la más famosa de las novelas de Jane Austen y una de las primeras comedias románticas en la historia de la novela. Su primera frase es, además, una de las más famosas en la literatura inglesa: «Es una verdad mundialmente reconocida que un hombre soltero, poseedor de una gran fortuna, necesita una esposa». Es una novela de desarrollo personal, en la que las dos figuras principales, Elizabeth Bennet y Fitzwilliam Darcy, cada uno a su manera y, no obstante, de forma muy parecida, deben madurar para superar algunas crisis y aprender de sus errores para poder encarar el futuro en común, superando el orgullo de clase de Darcy y los prejuicios de Elizabeth hacia él. Descripción por Phileas Fogg."
+	},
+	{
+		"title": "Robinson Crusoe",
+		"author": "Daniel Defoe",
+		"year": 1719,
+		"category": "Aventura",
+		"editorial": "Edhasa",
+		"status": 1,
+		"isbn": "9788435045728",
+		"poster": "require('@/assets/images/P-061719.webp')",
+		"resume": "Las aventuras de Robinson Crusoe comienzan un día en el que, desobedeciendo la voluntad de su padre, que desea que estudie leyes, el joven decide acompañar a un amigo suyo en un viaje por mar. Este primer viaje despierta en Robinson el ansia por conocer mundo, y se embarca en distintas expediciones. En una de ellas, el barco en el que viaja naufraga, y Robinson es el único superviviente. Perdido en una isla desierta deberá sobrevivir a las necesidades más elementales de la vida y, sobre todo, deberá sobrevivir a la soledad. Robinson Crusoe es todo un clásico de la literatura de aventuras."
+	},
+	{
+		"title": "Cien Años De Soledad",
+		"author": "Gabriel García Márquez",
+		"year": 1967,
+		"category": "Realismo Magico",
+		"editorial": "Diana",
+		"status": 3,
+		"isbn": "9786070726682",
+		"poster": "require('@/assets/images/P-071967.webp')",
+		"resume": "Muchos años después, frente al pelotón de fusilamiento, el coronel Aureliano Buendía había de recordar aquella tarde remota en que su padre lo llevó a conocer el hielo.» Con estas palabras empieza una novela ya legendaria en los anales de la literatura universal, una de las aventuras literarias más fascinantes de nuestro s iglo. Millones de ejemplares de Cien años de soledad leídos en todas las lenguas y el premio Nobel de Literatura coronando una obra que se había abierto paso «boca a boca» -como gusta decir el escritor- son la más palpable demostración de que la aventura fabulosa de la familia Buendía-Iguarán, con sus milagros, fantasías, obsesiones, tragedias, incestos, adulterios, rebeldías, descubrimientos y condenas, representaba al mismo tiempo el mito y la historia, la tragedia y el amor del mundo entero."
+	},
+	{
+		"title": "La Divina Comedia",
+		"author": "Dante Alighieri",
+		"year": 1314,
+		"category": "Poema",
+		"editorial": "Alianza",
+		"status": 1,
+		"isbn": "9788420682884",
+		"poster": "require('@/assets/images/P-081314.webp')",
+		"resume": "Dante Alighieri (1265-1321), padre de la lengua italiana, invirtió doce años de su vida en escribir la Divina Comedia. Dos hechos biográficos -la muerte de su amada Beatriz y el exilio de su ciudad, Florencia- le sumieron en un estado de incertidumbre y desilusión que sólo logró superar a través de una poesía universalizante que dejó a las generaciones venideras una obra plena de belleza e inmortalidad, base de la literatura alegórica medieval. En la Divina Comedia Dante pretende decir \"lo que nunca ha sido dicho de mujer alguna\": la exaltación del triunfo celestial de la amada, la expresión de un amor que transciende las dimensiones físicas de este mundo y se convierte en pura espiritualidad. El resultado final es un fantástico viajes hacia la redención que abarca todo el argumento existencial, desde la creación del hombre hasta su destino final, la divinidad."
+	},
+	{
+		"title": "El Diario De Ana Frank",
+		"author": "Ana Frank",
+		"year": 1947,
+		"category": "Autobiografia",
+		"editorial": "DeBolsillo",
+		"status": 3,
+		"isbn": "9788497593069",
+		"poster": "require('@/assets/images/P-091947.webp')",
+		"resume": "«De entre los muchos que, a lo largo de la historia, han hablado en nombre de la dignidad humana en tiempos de sufrimiento y muerte, no hay ninguna voz que tenga más peso que la de Ana Frank.»John F. Kennedy.
+		Tras la invasión de Holanda, los Frank, comerciantes judíos alemanes emigrados a Amsterdam en 1933, se ocultaron de la Gestapo en una buhardilla anexa al edifi cio donde el padre de Ana tenía sus oficinas. Eran ocho personas y permanecieron recluidas desde junio de 1942 hasta agosto de 1944,fecha en que fueron detenidos y enviados a campos de concentración. En ese lugar y en las más precarias condiciones, Ana, a la sazón una niña de trece años, escribió su estremecedor Diario: un testimonio único en su género sobre el horror y la barbarie nazi, y sobre los sentimientos y experiencias de la propia Ana y sus acompañantes. Ana murió en el campo de Bergen-Belsen en marzo de 1945. Su Diario Nunca Morirá."
+	},
+	{
+		"title": "El Gran Gatsby",
+		"author": "F. Scott Fitzgerald",
+		"year": 1925,
+		"category": "Drama",
+		"editorial": "Alma",
+		"status": 1,
+		"isbn": "9788418395185",
+		"poster": "require('@/assets/images/P-101925.jpg')",
+		"resume": "Jay Gatsby, el caballero que reina sobre West Egg, el anfitrión de las noches sin tregua, pero también el triunfador marcado por el trágico sino de una soledad no pretendida, es el arquetipo de esos años veinte que se iniciaron con la Prohibición y discurrieron en el gangsterismo y la corrupción política organizada. Protagonista de una década que culminaría con la catástrofe de 1929, su imagen de esplendor no hace sino anunciar un drama inevitable. Triunfo de perpetua juventud, brillantez animada por el exceso, fueron también las constantes de la vida de Francis Scott Fitzgerald, quien nos ofrece en El gran Gatsby una de sus obras mayores."
+	},
+	{
+		"title": "El Retrato De Dorian Gray",
+		"author": "Oscar Wilde",
+		"year": 1890,
+		"category": "Drama",
+		"editorial": "Belvedere",
+		"status": 2,
+		"isbn": "9788494906305",
+		"poster": "require('@/assets/images/P-111890.webp')",
+		"resume": "Basil Hallward pinta el retrato de Dorian Gray fascinado por su belleza. Este, influenciado por su amigo lord Henry Wotton, decide dedicarse a un mundo amoral y hedonista lleno de placeres y diversión. Mientras lleva este tipo de vida, Dorian mantiene toda su juventud y lozanía mientras que el retrato envejece, mostrando toda la crudeza de su nueva vida amoral y carente de escrúpulos."
+	},
+	{
+		"title": "La Peste",
+		"author": "Albert Camus",
+		"year": 1947,
+		"category": "Novela",
+		"editorial": "Edhasa",
+		"status": 1,
+		"isbn": "9788435018814",
+		"poster": "require('@/assets/images/P-121947.jpg')",
+		"resume": "Cumbre de la narrativa de este siglo, amarga y penetrante alegoría de un mundo al que sólo una catástrofe logra rehumanizar. Novela apasionante, de gran densidad y de profunda comprensión del ser humano, se ha convertido en uno de los clásicos más indiscutibles de la literartura francesa de todos los tiempos y en uno de los más leídos. Albert Camus (1913-1960), fue un autor comprometido con los acontecimientos históricos que conmovieron Europa antes y después de la segunda guerra mundial. Periodista combativo, disidente de todas las ortodoxias de su tiempo, polemista incansable, escribió libros tan fundamentales en nuestra cultura como La peste, El extranjero, y otras."
+	},
+	{
+		"title": "El Túnel",
+		"author": "Ernesto Sabato",
+		"year": 1948,
+		"category": "Intriga",
+		"editorial": "Austral",
+		"status": 1,
+		"isbn": "9788432248368",
+		"poster": "require('@/assets/images/P-141948.jpg')",
+		"resume": "El túnel es una de las grandes novelas sudamericanas de este siglo, cuyos ecos recogieron pronto en Europa Graham Greene y Camus. El relato, montado en los recursos de la novela policial, desarrolla un personaje que revela su psicología introspectiva e impone al lector un análisis de la desesperanza. El protagonista, Juan Pablo Castel, persigue inútilmente lo inalcanzable, que no es sino el regreso a la infancia, simbolizada en la ventana de un cuadro, motivo reiterado largamente en la narración."
+	},
+	{
+		"title": "1984",
+		"author": "George Orwell",
+		"year": 1949,
+		"category": "Ciencia Ficción",
+		"editorial": "DeBolsillo",
+		"status": 1,
+		"isbn": "9788499890944",
+		"poster": "require('@/assets/images/P-141949.jpg')",
+		"resume": "«No creo que la sociedad que he descrito en 1984 necesariamente llegue a ser una realidad, pero sí creo que puede llegar a existir algo parecido», escribía Orwell después de publicar su novela. Corría el año 1948, y la realidad se ha encargado de convertir esa pieza —entonces de ciencia ficción— en un manifiesto de la realidad.
+		En el año 1984 Londres es una ciudad lúgubre en la que la Policía del Pensamiento controla de forma asfixiante la vida de los ciudadanos. Winston Smith es un peón de este engranaje perverso y su cometido es reescribir la historia para adaptarla a lo que el Partido considera la versión oficial de los hechos. Hasta que decide replantearse la verdad del sistema que los gobierna y somete."
+	},
+	{
+		"title": "Los Miserables",
+		"author": "Victor Hugo",
+		"year": 1862,
+		"category": "Drama",
+		"editorial": "Edhasa",
+		"status": 1,
+		"isbn": "9788435021999",
+		"poster": "require('@/assets/images/P-151862.jpg')",
+		"resume": "Jean Valjean, un exconvicto al que encerraron durante veinte años por robar un pedazo de pan, se convierte en un hombre ejemplar que lucha contra la miseria y la injusticia y que empeña su vida en cuidar a la hija de una mujer que ha debido prostituirse para salvar a la niña. Así, Jean Valjean se ve obligado a cambiar varias veces de nombres, es apresado, se fuga y reaparece. Al mismo tiempo, debe eludir al comisario Javert, un policía inflexible que lo persigue convencido de que tiene cuentas pendientes con la justicia. El enfrentamiento entre ambos se produce durante las revueltas de 1832 en París, donde, en las barricadas, un grupo de jóvenes idealistas planta cara al ejército en defensa de la libertad. Y, entre todo ello, historias de amor, de sacrificio, de redención, de amistad, porque el progreso, la ley, el alma, Dios, la Revolución francesa, la prisión, el contrato social, el crimen, las cloacas de París, el idilio amoroso, el maltrato, la pobreza, la justicia todo tiene cabida en la más extensa y famosa obra de Víctor Hugo, Los miserables. Magistral crónica de la historia de Francia en la primera mitad del XIX, desde Waterloo hasta las barricadas de 1848, Víctor Hugo buscó voluntariamente con Los miserables un género literario a la medida del hombre y del mundo moderno, una novela total. No en balde, concluye así: «... mientras haya en la tierra ignorancia y miseria, libros como éste podrían no ser inútiles».  Por fin una traducción íntegra y revisada a partir del original francés del siglo XIX"
+	},
