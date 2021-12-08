@@ -52,7 +52,7 @@
         <router-link
           class="rt | nav-button"
           :to="{ name: 'Loans', params: { id: userId } }"
-          v-if="isAuth"
+          v-if="isAuth && !isAdmin"
         >
           <span class="pc">Prestamos</span>
           <svg
@@ -139,8 +139,8 @@
           <span class="drop-text">En Prestamo</span>
         </router-link>
         <router-link
-          class="btn-drop"
           :to="{ name: 'Settings', params: { id: userId } }"
+          class="btn-drop"
           @click="clickDrop"
         >
           <span class="icon">
@@ -198,6 +198,7 @@ export default {
           this.$emit("loadHome");
           break;
         case "logout":
+          this.dropSH();
           this.$emit("logoutClicked");
           break;
         default:
@@ -205,7 +206,6 @@ export default {
       }
     },
     clickDrop() {
-      // this.dropSH();
       window.scrollTo(0, 0);
       this.dropDisplay = "none";
     },

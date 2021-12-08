@@ -35,14 +35,6 @@ export default {
   methods: {
     Login() {
       this.$router.push({ name: "Login" });
-      /*   this.isAuth = true;
-      this.isAdmin = true;
-      this.user = usersData;
-      this.user = this.user.find((user) => user.id == this.id);
-      let name = `${this.user.firstname} ${this.user.lastname}`;
-      localStorage.setItem("name", name);
-      localStorage.setItem("userId", this.id);
-      localStorage.setItem("isAdmin", this.isAdmin); */
     },
     async userLogin() {
       this.id = jwt_decode(localStorage.getItem("tokenRefresh")).user_id;
