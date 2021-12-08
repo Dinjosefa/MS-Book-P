@@ -7,7 +7,7 @@
     @logoutClicked="Logout"
   />
   <main>
-    <router-view @userLogin = "userLogin"/>
+    <router-view @userLogin="userLogin" />
   </main>
   <Footer />
 </template>
@@ -15,6 +15,7 @@
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import jwt_decode from "jwt-decode";
+import gql from "graphql-tag";
 
 export default {
   name: "App",
@@ -33,8 +34,8 @@ export default {
   },
   methods: {
     Login() {
-      this.$router.push({name: "Login"})
-    /*   this.isAuth = true;
+      this.$router.push({ name: "Login" });
+      /*   this.isAuth = true;
       this.isAdmin = true;
       this.user = usersData;
       this.user = this.user.find((user) => user.id == this.id);
@@ -43,10 +44,48 @@ export default {
       localStorage.setItem("userId", this.id);
       localStorage.setItem("isAdmin", this.isAdmin); */
     },
-    userLogin(){
+    async userLogin() {
       this.id = jwt_decode(localStorage.getItem("tokenRefresh")).user_id;
+      await this.$apollo
+        .mutate({
+          mutation: gql`
+            mutation UserDetailById($userId: Int!) {
+            userDetailById(userId: $userId) {
+            is_superuser
+            id
+            username
+            firstname
+            lastname
+            address
+            phone
+            email
+            cantlib
+            }
+          }
+          `,
+          variables: {
+            userId: this.id,
+          },
+        })
+        .then((result) => {
+          let results = result.data.userDetailById;
+            localStorage.setItem("isAdmin", (results.is_superuser == 1) ? true : false);
+            let name = `${results.firstname} ${results.lastname}`;
+            localStorage.setItem("name", name);
+            localStorage.setItem("userId", results.id);
+            localStorage.setItem("username", results.username);
+            this.$router.push({name:"Home"});
+            this.isAuth = true;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
-    Logout() {},
+    Logout() {
+      localStorage.clear();
+      this.$router.push({name:"Home"});
+      this.isAuth = false;
+    },
   },
   mounted() {},
 };
@@ -224,7 +263,7 @@ h2 {
   right: -9%;
   border-width: 0.35rem;
   border-style: solid;
-  border-color: #0000  #0000 #0000 var(--bg-tooltip);
+  border-color: #0000 #0000 #0000 var(--bg-tooltip);
 }
 @keyframes iconmove {
   0% {

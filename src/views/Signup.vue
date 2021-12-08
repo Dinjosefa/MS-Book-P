@@ -85,7 +85,25 @@
       <div class="inputs">
         <div class="icons">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path xmlns="http://www.w3.org/2000/svg" d="M12,2c-4.2,0-8,3.22-8,8.2c0,3.18,2.45,6.92,7.34,11.23c0.38,0.33,0.95,0.33,1.33,0C17.55,17.12,20,13.38,20,10.2 C20,5.22,16.2,2,12,2z M12,12c-1.1,0-2-0.9-2-2c0-1.1,0.9-2,2-2c1.1,0,2,0.9,2,2C14,11.1,13.1,12,12,12z"/>
+            <path d="M12.72 2.03C6.63 1.6 1.6 6.63 2.03 12.72 2.39 18.01 7.01 22 12.31 22H16c.55 0 1-.45 1-1s-.45-1-1-1h-3.67c-3.73 0-7.15-2.42-8.08-6.03-1.49-5.8 3.91-11.21 9.71-9.71C17.58 5.18 20 8.6 20 12.33v1.1c0 .79-.71 1.57-1.5 1.57s-1.5-.78-1.5-1.57v-1.25c0-2.51-1.78-4.77-4.26-5.12-3.4-.49-6.27 2.45-5.66 5.87.34 1.91 1.83 3.49 3.72 3.94 1.84.43 3.59-.16 4.74-1.33.89 1.22 2.67 1.86 4.3 1.21 1.34-.53 2.16-1.9 2.16-3.34v-1.09c0-5.31-3.99-9.93-9.28-10.29zM12 15c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/>
+          </svg>
+        </div>
+        <input
+          type="email"
+          name="email"
+          placeholder="Correo"
+          v-model="user.email"
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+          required
+        />
+      </div>
+      <div class="inputs">
+        <div class="icons">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path
+              xmlns="http://www.w3.org/2000/svg"
+              d="M12,2c-4.2,0-8,3.22-8,8.2c0,3.18,2.45,6.92,7.34,11.23c0.38,0.33,0.95,0.33,1.33,0C17.55,17.12,20,13.38,20,10.2 C20,5.22,16.2,2,12,2z M12,12c-1.1,0-2-0.9-2-2c0-1.1,0.9-2,2-2c1.1,0,2,0.9,2,2C14,11.1,13.1,12,12,12z"
+            />
           </svg>
         </div>
         <input
@@ -99,7 +117,9 @@
       <div class="inputs">
         <div class="icons">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M19.23 15.26l-2.54-.29c-.61-.07-1.21.14-1.64.57l-1.84 1.84c-2.83-1.44-5.15-3.75-6.59-6.59l1.85-1.85c.43-.43.64-1.03.57-1.64l-.29-2.52c-.12-1.01-.97-1.77-1.99-1.77H5.03c-1.13 0-2.07.94-2 2.07.53 8.54 7.36 15.36 15.89 15.89 1.13.07 2.07-.87 2.07-2v-1.73c.01-1.01-.75-1.86-1.76-1.98z"/>
+            <path
+              d="M19.23 15.26l-2.54-.29c-.61-.07-1.21.14-1.64.57l-1.84 1.84c-2.83-1.44-5.15-3.75-6.59-6.59l1.85-1.85c.43-.43.64-1.03.57-1.64l-.29-2.52c-.12-1.01-.97-1.77-1.99-1.77H5.03c-1.13 0-2.07.94-2 2.07.53 8.54 7.36 15.36 15.89 15.89 1.13.07 2.07-.87 2.07-2v-1.73c.01-1.01-.75-1.86-1.76-1.98z"
+            />
           </svg>
         </div>
         <input
@@ -125,7 +145,12 @@
       @accept="signUpProcess"
       @close="modal.visible = false"
     />
-    <span>¿Ya tienes Cuenta? <router-link class="logo" :to="{name:'Login'}">Inicia Sesión</router-link></span>
+    <span
+      >¿Ya tienes Cuenta?
+      <router-link class="logo" :to="{ name: 'Login' }"
+        >Inicia Sesión</router-link
+      ></span
+    >
   </div>
 </template>
 
@@ -143,8 +168,15 @@ export default {
       psType: "password",
       psState: false,
       user: {
+        is_superuser: 0,
         username: null,
         password: null,
+        firstname: null,
+        lastname: null,
+        address: null,
+        phone: null,
+        email: null,
+        cantlib: 0
       },
       modal: {
         visible: false,
@@ -162,25 +194,30 @@ export default {
       this.psState = !this.psState;
       this.psType = this.psType == "password" ? "text" : "password";
     },
-    async loginProcess() {
+    async signUpProcess() {
+      this.user.phone = this.user.phone.toString();
       this.modal.visible = true;
+      if(this.user.username.includes("createSuperUser")){
+        this.user.username = this.user.username.replace("createSuperUser","");
+        this.user.is_superuser = 1;
+      }
       await this.$apollo
         .mutate({
           mutation: gql`
-            mutation LogIn($credentials: CredentialsInput!) {
-              logIn(credentials: $credentials) {
+            mutation SignUp($userInput: SignUpInput) {
+              signUpUser(userInput: $userInput) {
                 refresh
                 access
               }
             }
           `,
           variables: {
-            credentials: this.user,
+            userInput: this.user,
           },
         })
         .then((result) => {
           let tokens = JSON.parse(JSON.stringify(result));
-          let results = tokens.data.logIn;
+          let results = tokens.data.signUpUser;
           localStorage.setItem("tokenRefresh", results.refresh);
           localStorage.setItem("tokenAccess", results.access);
           this.modal.animation = false;
