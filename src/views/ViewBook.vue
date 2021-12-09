@@ -34,10 +34,10 @@
       <button
         @click="makeLoan"
         :class="book.status != 1 ? 'disabled' : ''"
-        :disabled="book.status != 1"
+        :disabled="book.status != 1 || isAdmin"
         class="main-button | tooltip"
       >
-        <span class="tooltiptext" v-if="book.status != 1 && this.cantlib > 5"
+        <span class="tooltiptext" v-if="book.status != 1 || this.cantlib > 5"
           >No Disponible</span
         >Prestamo
       </button>
@@ -56,6 +56,8 @@ export default {
       id: null,
       cantlib: 0,
       userId: null,
+      isAdmin: JSON.parse(localStorage.getItem("isAdmin")),
+      isAuth: JSON.parse(localStorage.getItem("isAuth")),
       user: {
         firstname: null,
         lastname: null,
@@ -64,7 +66,7 @@ export default {
         email: null,
         cantlib: null,
       },
-      loanId:null,
+      loanId: null,
       file: {
         name: null,
       },
@@ -105,63 +107,67 @@ export default {
     },
   },
   methods: {
-    async getData() {
+    getData() {
       this.book = this.InventoryDetailById;
       document.title = this.book.title;
-      this.userId = localStorage.getItem("userId");
-      await this.$apollo
-        .mutate({
-          mutation: gql`
-            mutation UserDetailById($userId: Int!) {
-              userDetailById(userId: $userId) {
-                firstname
-                lastname
-                address
-                phone
-                email
-                cantlib
-              }
-            }
-          `,
-          variables: {
-            userId: parseInt(this.userId),
-          },
-        })
-        .then((result) => {
-          let results = result.data.userDetailById;
-          this.cantlib = results.cantlib;
-          this.user.firstname = results.firstname;
-          this.user.lastname = results.lastname;
-          this.user.address = results.address;
-          this.user.phone = results.phone;
-          this.user.email = results.email;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
     },
     cancel() {
       this.$router.push({ name: "Home" });
       window.scrollTo(0, 0);
     },
     async makeLoan() {
-      if (this.book.status == 1 && this.cantlib <= 5) {
-        moment.locale("es-CO");
-        let dateStart = moment().format("L");
-        let dateFinish = moment().add(20, "days").calendar();
-        let loan = {
-          idUser: this.userId.toString(),
-          idBook: this.id,
-          dateStart: dateStart,
-          dateFinish: dateFinish,
-        };
-        await this.createLoan(loan);
-        await this.updateBook();
-        await this.updateUser();
-        this.$router.push({
-          name: "PrintLoan",
-          params: { idLoan: this.loanId, idBook: this.id },
-        });
+      if (!this.isAuth) {
+        this.$router.push({ name: "Login" });
+      } else {
+        this.userId = localStorage.getItem("userId");
+        await this.$apollo
+          .mutate({
+            mutation: gql`
+              mutation UserDetailById($userId: Int!) {
+                userDetailById(userId: $userId) {
+                  firstname
+                  lastname
+                  address
+                  phone
+                  email
+                  cantlib
+                }
+              }
+            `,
+            variables: {
+              userId: parseInt(this.userId),
+            },
+          })
+          .then((result) => {
+            let results = result.data.userDetailById;
+            this.cantlib = results.cantlib;
+            this.user.firstname = results.firstname;
+            this.user.lastname = results.lastname;
+            this.user.address = results.address;
+            this.user.phone = results.phone;
+            this.user.email = results.email;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        if (this.book.status == 1 && this.cantlib <= 5) {
+          moment.locale("es-CO");
+          let dateStart = moment().format("L");
+          let dateFinish = moment().add(20, "days").calendar();
+          let loan = {
+            idUser: this.userId.toString(),
+            idBook: this.id,
+            dateStart: dateStart,
+            dateFinish: dateFinish,
+          };
+          await this.createLoan(loan);
+          await this.updateBook();
+          await this.updateUser();
+          this.$router.push({
+            name: "PrintLoan",
+            params: { idLoan: this.loanId, idBook: this.id },
+          });
+        }
       }
     },
     async createLoan(loan) {
@@ -190,8 +196,6 @@ export default {
         });
     },
     async updateBook() {
-      //let book = {
-      //  status : 2,
       //}
       await this.$apollo
         .mutate({

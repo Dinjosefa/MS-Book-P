@@ -174,7 +174,7 @@
 <script>
 export default {
   name: "Header",
-  props: ["isAuth", "block", "isAdmin"],
+  props: ["block"],
   data() {
     return {
       textLogo: "Book-P",
@@ -182,6 +182,8 @@ export default {
       dropDisplay: "none",
       textBtnAccount: null,
       userId: 0,
+      isAdmin: false,
+      isAuth: false,
     };
   },
   methods: {
@@ -222,22 +224,24 @@ export default {
         });
       return str.join(" ");
     },
+    showComponents() {
+      if (this.isAuth) {
+        this.textBtnAccount = this.titleCase(localStorage.getItem("name"));
+        this.userId = localStorage.getItem("userId");
+      } else {
+        this.textBtnAccount = "Iniciar Sesion";
+      }
+    },
   },
   mounted() {
-    if (this.isAuth) {
-      this.textBtnAccount = this.titleCase(localStorage.getItem("name"));
-      this.userId = localStorage.getItem("userId");
-    } else {
-      this.textBtnAccount = "Iniciar Sesion";
-    }
+    this.isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
+    this.isAuth = JSON.parse(localStorage.getItem("isAuth"));
+    this.showComponents();
   },
   beforeUpdate() {
-    if (this.isAuth) {
-      this.textBtnAccount = this.titleCase(localStorage.getItem("name"));
-      this.userId = localStorage.getItem("userId");
-    } else {
-      this.textBtnAccount = "Iniciar Sesion";
-    }
+    this.isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
+    this.isAuth = JSON.parse(localStorage.getItem("isAuth"));
+    this.showComponents();
   },
 };
 </script>

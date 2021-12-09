@@ -70,8 +70,6 @@
 <script>
 import Confirmation from "@/components/Confirmation.vue";
 import gql from "graphql-tag";
-import { useAttrs } from "@vue/runtime-core";
-import { Token } from 'graphql/language/ast';
 
 export default {
   name: "Login",

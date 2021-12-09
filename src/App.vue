@@ -1,8 +1,6 @@
 <template>
   <Header
-    :isAuth="isAuth"
     :block="block"
-    :isAdmin="isAdmin"
     @login="Login"
     @logoutClicked="Logout"
   />
@@ -25,8 +23,6 @@ export default {
   },
   data() {
     return {
-      isAuth: false,
-      isAdmin: false,
       block: false,
       user: [],
       id: 3,
@@ -67,8 +63,8 @@ export default {
             localStorage.setItem("userId", results.id);
             localStorage.setItem("username", results.username);
             localStorage.setItem("cantlib",results.cantlib);
+            localStorage.setItem("isAuth",true);
             this.$router.push({name:"Home"});
-            this.isAuth = true;
         })
         .catch((error) => {
           console.log(error);
@@ -77,10 +73,12 @@ export default {
     Logout() {
       localStorage.clear();
       this.$router.push({name:"Home"});
-      this.isAuth = false;
     },
   },
-  mounted() {},
+  created() {
+    localStorage.setItem("isAuth",false);
+    localStorage.setItem("isAdmin",false);
+  },
 };
 </script>
 <style>

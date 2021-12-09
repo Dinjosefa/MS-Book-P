@@ -281,8 +281,7 @@ export default {
     },
   },
   mounted() {
-    this.isAdmin = localStorage.getItem("isAdmin");
-    // this.$apollo.
+    this.isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
   },
 };
 </script>
