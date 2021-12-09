@@ -1,5 +1,7 @@
 <template>
   <Header
+    :isAdmin="isAdmin"
+    :isAuth="isAuth"
     :block="block"
     @login="Login"
     @logoutClicked="Logout"
@@ -24,6 +26,8 @@ export default {
   data() {
     return {
       block: false,
+      isAdmin: JSON.parse(localStorage.getItem("isAdmin")) || false,
+      isAuth: JSON.parse(localStorage.getItem("isAuth")) || false,
       user: [],
       id: 3,
     };
@@ -38,18 +42,18 @@ export default {
         .mutate({
           mutation: gql`
             mutation UserDetailById($userId: Int!) {
-            userDetailById(userId: $userId) {
-            is_superuser
-            id
-            username
-            firstname
-            lastname
-            address
-            phone
-            email
-            cantlib
+              userDetailById(userId: $userId) {
+                is_superuser
+                id
+                username
+                firstname
+                lastname
+                address
+                phone
+                email
+                cantlib
+              }
             }
-          }
           `,
           variables: {
             userId: this.id,
@@ -57,14 +61,19 @@ export default {
         })
         .then((result) => {
           let results = result.data.userDetailById;
-            localStorage.setItem("isAdmin", (results.is_superuser == 1) ? true : false);
-            let name = `${results.firstname} ${results.lastname}`;
-            localStorage.setItem("name", name);
-            localStorage.setItem("userId", results.id);
-            localStorage.setItem("username", results.username);
-            localStorage.setItem("cantlib",results.cantlib);
-            localStorage.setItem("isAuth",true);
-            this.$router.push({name:"Home"});
+          localStorage.setItem(
+            "isAdmin",
+            results.is_superuser == 1 ? true : false
+          );
+          let name = `${results.firstname} ${results.lastname}`;
+          localStorage.setItem("name", name);
+          localStorage.setItem("userId", results.id);
+          localStorage.setItem("username", results.username);
+          localStorage.setItem("cantlib", results.cantlib);
+          localStorage.setItem("isAuth", true);
+          this.isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
+          this.isAuth = JSON.parse(localStorage.getItem("isAuth"));
+          this.$router.push({ name: "Home" });
         })
         .catch((error) => {
           console.log(error);
@@ -72,13 +81,12 @@ export default {
     },
     Logout() {
       localStorage.clear();
-      this.$router.push({name:"Home"});
+      this.isAdmin =false;
+      this.isAuth =false;
+      this.$router.push({ name: "Home" });
     },
   },
-  created() {
-    localStorage.setItem("isAuth",false);
-    localStorage.setItem("isAdmin",false);
-  },
+  created() {},
 };
 </script>
 <style>

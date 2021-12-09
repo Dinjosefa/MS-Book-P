@@ -174,7 +174,7 @@
 <script>
 export default {
   name: "Header",
-  props: ["block"],
+  props: ["isAdmin","isAuth","block"],
   data() {
     return {
       textLogo: "Book-P",
@@ -182,8 +182,6 @@ export default {
       dropDisplay: "none",
       textBtnAccount: null,
       userId: 0,
-      isAdmin: false,
-      isAuth: false,
     };
   },
   methods: {
@@ -234,13 +232,9 @@ export default {
     },
   },
   mounted() {
-    this.isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
-    this.isAuth = JSON.parse(localStorage.getItem("isAuth"));
     this.showComponents();
   },
   beforeUpdate() {
-    this.isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
-    this.isAuth = JSON.parse(localStorage.getItem("isAuth"));
     this.showComponents();
   },
 };

@@ -56,8 +56,8 @@ export default {
       id: null,
       cantlib: 0,
       userId: null,
-      isAdmin: JSON.parse(localStorage.getItem("isAdmin")),
-      isAuth: JSON.parse(localStorage.getItem("isAuth")),
+      isAdmin: JSON.parse(localStorage.getItem("isAdmin")) || false,
+      isAuth: JSON.parse(localStorage.getItem("isAuth")) || false,
       user: {
         firstname: null,
         lastname: null,
