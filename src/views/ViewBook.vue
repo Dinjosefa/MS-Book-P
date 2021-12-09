@@ -2,7 +2,13 @@
   <div class="component">
     <div class="first-container">
       <div class="container-image">
-        <img :src="book.poster" onerror="this.onerror=null; this.src='https://firebasestorage.googleapis.com/v0/b/proyectociclo4-447aa.appspot.com/o/NotFound.svg?alt=media&token=1d1ae5f3-146d-4edf-bb6a-5fff39c6b96d'" @error="this.border = '.1rem solid var(--border-input)'" :style="{ border: border }" :alt="book.title" />
+        <img
+          :src="book.poster"
+          onerror="this.onerror=null; this.src='https://firebasestorage.googleapis.com/v0/b/proyectociclo4-447aa.appspot.com/o/NotFound.svg?alt=media&token=1d1ae5f3-146d-4edf-bb6a-5fff39c6b96d'"
+          @error="this.border = '.1rem solid var(--border-input)'"
+          :style="{ border: border }"
+          :alt="book.title"
+        />
       </div>
       <div class="container-info">
         <div class="info">
@@ -31,7 +37,8 @@
         :disabled="book.status != 1"
         class="main-button | tooltip"
       >
-        <span class="tooltiptext" v-if="book.status != 1">No Disponible</span
+        <span class="tooltiptext" v-if="book.status != 1 && this.cantlib > 5"
+          >No Disponible</span
         >Prestamo
       </button>
     </div>
@@ -47,13 +54,25 @@ export default {
   data() {
     return {
       id: null,
+      cantlib: 0,
+      userId: null,
+      user: {
+        firstname: null,
+        lastname: null,
+        address: null,
+        phone: null,
+        email: null,
+        cantlib: null,
+      },
+      loanId:null,
       file: {
         name: null,
       },
       border: ".1rem solid transparent",
       book: {
-        poster: "https://firebasestorage.googleapis.com/v0/b/proyectociclo4-447aa.appspot.com/o/NotFound.svg?alt=media&token=1d1ae5f3-146d-4edf-bb6a-5fff39c6b96d",
-      }
+        poster:
+          "https://firebasestorage.googleapis.com/v0/b/proyectociclo4-447aa.appspot.com/o/NotFound.svg?alt=media&token=1d1ae5f3-146d-4edf-bb6a-5fff39c6b96d",
+      },
     };
   },
   apollo: {
@@ -80,30 +99,172 @@ export default {
         };
       },
       update: (data) => data.inventoryDetailById,
-      result(){
+      result() {
         this.getData();
-      }
+      },
     },
   },
   methods: {
-    getData() {
+    async getData() {
       this.book = this.InventoryDetailById;
       document.title = this.book.title;
+      this.userId = localStorage.getItem("userId");
+      await this.$apollo
+        .mutate({
+          mutation: gql`
+            mutation UserDetailById($userId: Int!) {
+              userDetailById(userId: $userId) {
+                firstname
+                lastname
+                address
+                phone
+                email
+                cantlib
+              }
+            }
+          `,
+          variables: {
+            userId: parseInt(this.userId),
+          },
+        })
+        .then((result) => {
+          let results = result.data.userDetailById;
+          this.cantlib = results.cantlib;
+          this.user.firstname = results.firstname;
+          this.user.lastname = results.lastname;
+          this.user.address = results.address;
+          this.user.phone = results.phone;
+          this.user.email = results.email;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     cancel() {
       this.$router.push({ name: "Home" });
       window.scrollTo(0, 0);
     },
-    makeLoan() {
-      if (book.status != 1) {
+    async makeLoan() {
+      if (this.book.status == 1 && this.cantlib <= 5) {
+        moment.locale("es-CO");
+        let dateStart = moment().format("L");
+        let dateFinish = moment().add(20, "days").calendar();
+        let loan = {
+          idUser: this.userId.toString(),
+          idBook: this.id,
+          dateStart: dateStart,
+          dateFinish: dateFinish,
+        };
+        await this.createLoan(loan);
+        await this.updateBook();
+        await this.updateUser();
+        this.$router.push({
+          name: "PrintLoan",
+          params: { idLoan: this.loanId, idBook: this.id },
+        });
       }
-      moment.locale("es-CO");
-      // let dateStart = moment().format("L");
-      // let dateFinish = moment().add(20, "days").calendar();
+    },
+    async createLoan(loan) {
+      await this.$apollo
+        .mutate({
+          mutation: gql`
+            mutation NewLoan($loanInput: LoanInput!) {
+              newLoan(loanInput: $loanInput) {
+                id
+                idUser
+                idBook
+                dateStart
+                dateFinish
+              }
+            }
+          `,
+          variables: {
+            loanInput: loan,
+          },
+        })
+        .then((result) => {
+          this.loanId = result.data.newLoan.id;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    async updateBook() {
+      //let book = {
+      //  status : 2,
+      //}
+      await this.$apollo
+        .mutate({
+          mutation: gql`
+            mutation UpdateInventory(
+              $inventoryId: String!
+              $inventoryUpdateInput: InventoryUpdateInput
+            ) {
+              updateInventory(
+                inventoryId: $inventoryId
+                inventoryUpdateInput: $inventoryUpdateInput
+              ) {
+                id
+              }
+            }
+          `,
+          variables: {
+            inventoryId: this.id,
+            inventoryUpdateInput: { status: 2 },
+          },
+        })
+        .then((result) => {})
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    async updateUser() {
+      this.user.cantlib = this.cantlib + 1;
+      await this.$apollo
+        .mutate({
+          mutation: gql`
+            mutation UpdateUser($userId: Int!, $userInput: UpdateInput) {
+              updateUser(userId: $userId, userInput: $userInput) {
+                cantlib
+              }
+            }
+          `,
+          variables: {
+            userId: parseInt(this.userId),
+            userInput: this.user,
+          },
+        })
+        .then((result) => {})
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    createPdf() {
+      html2pdf()
+        .set({
+          margin: 1,
+          filename: `Prestamo-${this.book.title}.pdf`,
+          image: {
+            type: "jpeg",
+            quality: 0.98,
+          },
+          html2canvas: {
+            scale: 3,
+            letterRendering: true,
+          },
+          jsPDF: {
+            unit: "in",
+            format: "a3",
+            orientation: "portrait",
+          },
+        })
+        .from(this.$refs.pdf)
+        .save()
+        .catch((err) => console.log(err));
     },
   },
   mounted() {
-    this.id =  this.$route.params.id;
+    this.id = this.$route.params.id;
   },
 };
 </script>

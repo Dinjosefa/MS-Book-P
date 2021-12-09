@@ -13,7 +13,7 @@
         <div>
           <span>Bogotá D.C</span>
           <span>P44-C4 Equipo 2</span>
-          <span>ID Prestamo: {{ loan.id }}</span>
+          <span>ID Prestamo: {{ info.id }}</span>
         </div>
       </div>
       <span class="msgs | top"
@@ -23,25 +23,25 @@
     <div class="container">
       <div class="information-loan">
         <span class="bold"
-          >Prestamo del libro: <span>{{ loan.title }}</span></span
+          >Prestamo del libro: <span>{{ info.title }}</span></span
         >
         <span class="bold"
-          >ID Libro: <span>{{ loan.idBook }}</span></span
+          >ID Libro: <span>{{ info.idBook }}</span></span
         >
         <span class="bold"
-          >ISBN: <span>{{ loan.isbn }}</span></span
+          >ISBN: <span>{{ info.isbn }}</span></span
         >
         <span class="bold"
-          >Usuario: <span>{{ loan.user }}</span></span
+          >Usuario: <span>{{ info.user }}</span></span
         >
         <span class="bold"
-          >ID Usuario: <span>{{ loan.idUser }}</span></span
+          >ID Usuario: <span>{{ info.idUser }}</span></span
         >
         <span class="bold"
-          >Fecha del prestamo: <span>{{ loan.dateStart }}</span></span
+          >Fecha del prestamo: <span>{{ info.dateStart }}</span></span
         >
         <span class="bold"
-          >Fecha MAX para devolución: <span>{{ loan.dateFinish }}</span></span
+          >Fecha MAX para devolución: <span>{{ info.dateFinish }}</span></span
         >
       </div>
       <div>
@@ -54,9 +54,9 @@
     <div class="container | foot">
       <span class="msgs">¡Gracias por hacer su prestamo en Book-P!</span>
       <div class="icons">
-        <img class="unal" :src="unal"/>
+        <img class="unal" :src="unal" />
         <line></line>
-        <img class="mintic" :src="mintic"/>
+        <img class="mintic" :src="mintic" />
       </div>
     </div>
   </div>
@@ -64,8 +64,9 @@
 </template>
 
 <script>
-import html2pdf from 'html2pdf.js';
+import html2pdf from "html2pdf.js";
 import qrcode from "qrcode";
+import gql from "graphql-tag";
 export default {
   name: "PrintLoan",
   data() {
@@ -74,49 +75,116 @@ export default {
       url: null,
       unal: require("@/icons/logo_unal.png"),
       mintic: require("@/icons/logo_mision_minticV2.png"),
-      loan: {
-        id: 1,
-        title: "Los Hijos De Los Días",
-        idBook: 1,
-        isbn: 9788432316272,
-        user: "Felipe Gomez",
-        idUser: 3,
-        dateStart: "14/11/2021",
-        dateFinish: "03/12/2021",
+      info: {
+        id: this.$route.params.idLoan,
+        title: null,
+        idBook: this.$route.params.idBook,
+        isbn: null,
+        user: localStorage.getItem("username"),
+        idUser: localStorage.getItem("userId").toString(),
+        dateStart: null,
+        dateFinish: null,
       },
+      loanStatus: false,
+      bookStatus: false,
     };
   },
+  apollo: {
+    InventoryDetailById: {
+      query: gql`
+        query InventoryDetailById($inventoryId: String!) {
+          inventoryDetailById(inventoryId: $inventoryId) {
+            title
+            isbn
+          }
+        }
+      `,
+      variables() {
+        return {
+          inventoryId: this.info.idBook,
+        };
+      },
+      update: (data) => data.inventoryDetailById,
+      result() {
+        this.bookStatus = true;
+        this.proccess();
+      },
+    },
+    LoansDetailById: {
+      query: gql`
+        query loansDetailById($userId: String!) {
+          loansDetailById(userId: $userId) {
+            id
+            idUser
+            idBook
+            dateStart
+            dateFinish
+          }
+        }
+      `,
+      variables() {
+        return {
+          userId: this.info.idUser,
+        };
+      },
+      update: (data) => data.loansDetailById,
+      result() {
+        this.loanStatus = true;
+        this.proccess();
+      },
+    },
+  },
   methods: {
+    async proccess() {
+      if (this.bookStatus && this.loanStatus) {
+        this.info.title = this.InventoryDetailById.title;
+        this.info.isbn = this.InventoryDetailById.isbn;
+        this.url = `http://localhost:8080/book/${this.info.idBook}/update`;
+        this.getQrCode();
+        await this.filterLoan();
+      }
+    },
+    filterLoan() {
+      console.log(this.LoansDetailById);
+      let loanX = JSON.parse(JSON.stringify(this.LoansDetailById));
+      loanX.forEach((element) => {
+        if (element.id == this.info.id) {
+          this.info.dateStart = element.dateStart;
+          this.info.dateFinish = element.dateFinish;
+        } 
+      });
+      if(this.info.dateStart == null && this.info.dateFinish == null){
+          this.$router.push({
+          name: "NotFound",
+          params: { catchAll: "NotFound" }});
+      }
+    },
     async getQrCode() {
       this.qrcode = await qrcode.toDataURL(this.url);
     },
     createPdf() {
-      html2pdf().set({
-        margin:1,
-        filename: `Prestamo-${this.loan.title}.pdf`,
-        image:{
-          type:'jpeg',
-          quality: 0.98
-        },
-        html2canvas:{
-          scale:3,
-          letterRendering: true,
-        },
-        jsPDF:{
-          unit: 'in',
-          format:'a3',
-          orientation: 'portrait'
-        }
-      })
-      .from(this.$refs.pdf)
-      .save()
-      .catch(err => console.log(err))
+      html2pdf()
+        .set({
+          margin: 1,
+          filename: `Prestamo-${this.info.title}.pdf`,
+          image: {
+            type: "jpeg",
+            quality: 0.98,
+          },
+          html2canvas: {
+            scale: 3,
+            letterRendering: true,
+          },
+          jsPDF: {
+            unit: "in",
+            format: "a3",
+            orientation: "portrait",
+          },
+        })
+        .from(this.$refs.pdf)
+        .save()
+        .catch((err) => console.log(err));
     },
-  },
-  mounted() {
-    this.id = 1;
-    this.url = `http://localhost:8080/book/${this.id}/update`;
-    this.getQrCode();
   },
 };
 </script>

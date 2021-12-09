@@ -68,8 +68,8 @@ const routes = [
 		meta: { title: 'Mis Prestamos' }
 	},
 	{
-		path: '/tester',
-		name: 'test',
+		path: '/book/:idBook/loan/:idLoan',
+		name: 'PrintLoan',
 		component: () => import('@/views/PrintLoan.vue'),
 		meta: {title: 'Recibo'}
 	},

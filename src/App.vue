@@ -66,6 +66,7 @@ export default {
             localStorage.setItem("name", name);
             localStorage.setItem("userId", results.id);
             localStorage.setItem("username", results.username);
+            localStorage.setItem("cantlib",results.cantlib);
             this.$router.push({name:"Home"});
             this.isAuth = true;
         })
