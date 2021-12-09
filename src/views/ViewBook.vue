@@ -370,6 +370,9 @@ img {
   gap: 0.5rem;
   width: 100%;
 }
+.info span, .info h2{
+  white-space: nowrap;
+}
 h2 i {
   font-size: 1.2rem;
 }

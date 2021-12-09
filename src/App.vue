@@ -85,8 +85,36 @@ export default {
       this.isAuth = false;
       this.$router.push({ name: "Home" });
     },
+    async verifySession() {
+      if (this.isAuth) {
+        this.id = jwt_decode(localStorage.getItem("tokenRefresh")).user_id;
+        await this.$apollo
+          .mutate({
+            mutation: gql`
+            mutation UserDetailById($userId: Int!) {
+            mutation RefreshToken($refresh: String!) {
+              refreshToken(refresh: $refresh) {
+                access
+                }
+              }
+          `,
+            variables: {
+              userId: this.id,
+            },
+          })
+          .then((result) => {
+            let results = result.data.refreshToken;
+            localStorage.setItem("tokenAccess",results.access);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    },
   },
-  created() {},
+  created() {
+    this.verifySession();
+  },
 };
 </script>
 <style>
