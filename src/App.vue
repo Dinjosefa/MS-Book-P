@@ -81,8 +81,8 @@ export default {
     },
     Logout() {
       localStorage.clear();
-      this.isAdmin =false;
-      this.isAuth =false;
+      this.isAdmin = false;
+      this.isAuth = false;
       this.$router.push({ name: "Home" });
     },
   },
