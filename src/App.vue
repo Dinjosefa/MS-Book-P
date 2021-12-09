@@ -87,11 +87,9 @@ export default {
     },
     async verifySession() {
       if (this.isAuth) {
-        this.id = jwt_decode(localStorage.getItem("tokenRefresh")).user_id;
         await this.$apollo
           .mutate({
             mutation: gql`
-            mutation UserDetailById($userId: Int!) {
             mutation RefreshToken($refresh: String!) {
               refreshToken(refresh: $refresh) {
                 access
@@ -99,7 +97,7 @@ export default {
               }
           `,
             variables: {
-              userId: this.id,
+              refresh: localStorage.getItem("tokenRefresh"),
             },
           })
           .then((result) => {
