@@ -56,7 +56,7 @@ export default {
       `,
       variables() {
         return {
-          userId: "1",
+          userId: this.$route.params.id.toString(),
         };
       },
       update: (data) => data.loansDetailById,
@@ -93,7 +93,6 @@ export default {
         let loans = this.LoansByUserId;
         for (const key in loans) {
           const element = loans[key];
-          console.log(element);
           let book = {
             title: books.find((book) => book.id == element.idBook).title,
             author: books.find((book) => book.id == element.idBook).author,
@@ -106,11 +105,9 @@ export default {
         const element = this.booksUser[key];
         moment.locale("es-CO");
         let dateFinish = moment(element.dateFinish, "DD/MM/YYYY");
-        let datePast = moment(
-          moment().subtract(20, "days").calendar(),
-          "DD/MM/YYYY"
-        );
-        if (dateFinish < datePast) {
+        let datePast = moment().startOf('day');
+        
+        if (dateFinish.isBefore(datePast)) {
           this.booksHistory.push(element);
         } else {
           this.booksInLending.push(element);

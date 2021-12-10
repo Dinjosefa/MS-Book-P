@@ -71,6 +71,8 @@ export default {
       elementsPerPage: 13,
       actualPage: 1,
       pages: null,
+      bookStatus: false,
+      loanStatus: false,
     };
   },
   apollo: {
@@ -86,20 +88,25 @@ export default {
           }
         }
       `,
-      update: (data) => data.loasnDetail,
+      update: (data) => data.loansDetail,
       result() {
-        this.getData();
+        (this.loanStatus = true), this.getData();
       },
     },
     InventoriesDetail: {
       query: gql`
         query InventoriesDetail {
           inventoriesDetail {
+            id
             title
+            status
           }
         }
       `,
       update: (data) => data.inventoriesDetail,
+      result() {
+        (this.bookStatus = true), this.getData();
+      },
     },
   },
   methods: {
@@ -108,48 +115,49 @@ export default {
     },
     async getData() {
       // !HACER LA PETICIÓN DE LOS PRESTAMOS
-      this.books = registers;
-      this.users = usersData;
-      this.loans = this.LoansDetail;
-      let theDate = new Date().toLocaleString("es-CO");
-      this.filterLoans = this.loans.filter(
-        (loan) => loan.dateFinish <= theDate
-      );
-      this.loansF = [];
-      for (const key in this.filterLoans) {
-        const element = this.filterLoans[key];
-        let loan = {
-          id: element.id,
-          idUser: element.idUser,
-          user: `${
-            this.users.find((user) => user.id == element.idUser).firstname
-          } ${this.users.find((user) => user.id == element.idUser).lastname}`,
-          idBook: element.idBook,
-          title: this.books
-            .find((book) => book.id == element.idBook)
-            .title.toString(),
-          status: this.books.find((book) => book.id == element.idBook).status,
-          dateStart: element.dateStart,
-          dateFinish: element.dateFinish,
-        };
-        this.loansF.push(loan);
+      if (this.bookStatus && this.loanStatus) {
+        this.books = JSON.parse(JSON.stringify(this.InventoriesDetail));
+        this.loans = JSON.parse(JSON.stringify(this.LoansDetail));
+        let theDate = new Date().toLocaleString("es-CO");
+
+        this.filterLoans = this.loans.filter(
+          (loan) => loan.dateFinish <= theDate
+        );
+        this.loansF = [];
+        for (const key in this.filterLoans) {
+          const element = this.filterLoans[key];
+          let elementBook = this.books.find((book) => book.id == element.idBook);
+          let loan = {
+            id: element.id,
+            idUser: element.idUser,
+            // user: `${
+            //   this.users.find((user) => user.id == element.idUser).firstname
+            // } ${this.users.find((user) => user.id == element.idUser).lastname}`,
+            idBook: element.idBook,
+            title: elementBook.title,
+            status: elementBook.status,
+            dateStart: element.dateStart,
+            dateFinish: element.dateFinish,
+          };
+          this.loansF.push(loan);
+        }
+        moment.locale("es-CO");
+        this.loansF = this.loansF
+          .sort(
+            (a, b) =>
+              moment(a.dateFinish, "DD/MM/YYYY").unix() -
+              moment(b.dateFinish, "DD/MM/YYYY").unix()
+          )
+          .reverse();
+        this.pages = this.totalPages();
+        if (this.actualPage > this.pages) {
+          this.$router.push({
+            name: "NotFound",
+            params: { catchAll: "NotFound" },
+          });
+        }
+        this.getDataPage(this.actualPage);
       }
-      moment.locale("es-CO");
-      this.loansF = this.loansF
-        .sort(
-          (a, b) =>
-            moment(a.dateFinish, "DD/MM/YYYY").unix() -
-            moment(b.dateFinish, "DD/MM/YYYY").unix()
-        )
-        .reverse();
-      this.pages = this.totalPages();
-      if (this.actualPage > this.pages) {
-        this.$router.push({
-          name: "NotFound",
-          params: { catchAll: "NotFound" },
-        });
-      }
-      this.getDataPage(this.actualPage);
     },
     getDataPage(numPage) {
       if (numPage > 0 && numPage <= this.pages) {
