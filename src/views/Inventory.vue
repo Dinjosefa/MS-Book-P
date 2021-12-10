@@ -5,7 +5,7 @@
       <span>*no es posible editar los atributos desde este apartado</span>
     </div>
     <div class="table-inventory">
-      <Table :books="dataInPage" />
+      <Table :books="dataInPage" @deleteProcess="deleteProcess"/>
     </div>
     <nav class="pagination">
       <router-link
@@ -85,6 +85,7 @@ export default {
         finish: false,
         error: false,
       },
+      idDelete: null,
     };
   },
   apollo: {
@@ -135,7 +136,38 @@ export default {
     isActive(numPage) {
       return numPage == this.actualPage ? "active" : "";
     },
-    deleteBook() {},
+    deleteProcess(id){
+      this.idDelete = id;
+      this.modalDelete.visible = true;
+    },
+    async deleteBook() {
+      this.modalDelete.animation = true;
+      await this.$apollo
+        .mutate({
+          mutation: gql`
+            mutation DelInventory($inventoryId: String!) {
+              delInventory(inventoryId: $inventoryId)
+            }
+          `,
+          variables: {
+            inventoryId: this.idDelete
+          },
+        })
+        .then((result) => {
+          this.modalDelete.animation = false;
+          this.modalDelete.finish = true;
+          setTimeout(() => {
+            this.modalDelete.visible = false;
+            this.$apollo.queries.InventoriesDetail.refetch();
+          }, 1000);
+        })
+        .catch((error) => {
+          this.modalDelete.error = true;
+          setTimeout(() => {
+            this.modalDelete.visible = false;
+          }, 2000);
+        });
+    },
   },
   mounted() {
     this.actualPage = parseInt(this.$route.params.id);
