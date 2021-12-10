@@ -4,7 +4,7 @@
     <form @submit.prevent="processUpdate">
       <div class="inputs">
         <div class="containter-input">
-          <label for="username">Username:</label>
+          <label for="username">Username</label>
           <input
             type="text"
             name="username"
@@ -14,7 +14,7 @@
           />
         </div>
         <div class="containter-input">
-          <label for="firstname">Primer Nombre:</label>
+          <label for="firstname">Primer Nombre</label>
           <input
             type="text"
             name="firstname"
@@ -24,7 +24,7 @@
           />
         </div>
         <div class="containter-input">
-          <label for="lastname">Primer Apellido:</label>
+          <label for="lastname">Primer Apellido</label>
           <input
             type="text"
             name="lastname"
@@ -34,7 +34,7 @@
           />
         </div>
         <div class="containter-input">
-          <label for="email">Correo:</label>
+          <label for="email">Correo</label>
           <input
             type="text"
             name="email"
@@ -44,7 +44,7 @@
           />
         </div>
         <div class="containter-input">
-          <label for="address">Dirección:</label>
+          <label for="address">Dirección</label>
           <input
             type="text"
             name="address"
@@ -54,7 +54,7 @@
           />
         </div>
         <div class="containter-input">
-          <label for="phone">Telefono:</label>
+          <label for="phone">Telefono</label>
           <input
             type="text"
             name="phone"
@@ -201,16 +201,22 @@ export default {
 </script>
 
 <style scoped>
-.main-container {
+@media only screen and (min-width: 600px) and (max-width: 2000px) {
+  .inputs {
+  min-width: 30rem;
+}
+}
+@media only screen and (max-width: 600px) {
+ .inputs {
+  min-width: 16rem;
+}
+}
+.main-container, form {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 2rem;
-}
-.inputs {
-  width: 100%;
-  max-width: 28rem;
 }
 .containter-input {
   display: flex;
@@ -225,7 +231,10 @@ input {
 }
 .buttons {
   display: flex;
+  width: 100%;
   gap: 1rem;
-  align-self: flex-end;
+}
+.main-button, .sub-button{
+  width: 100%;
 }
 </style>
