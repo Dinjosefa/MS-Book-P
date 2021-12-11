@@ -326,4 +326,7 @@ span,
 a {
   font-size: 1rem;
 }
+input[type="number"]::-webkit-inner-spin-button{
+  opacity: 0;
+}
 </style>

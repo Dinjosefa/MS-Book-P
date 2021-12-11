@@ -373,6 +373,7 @@ export default {
       }
     },
     getDataPage(numPage) {
+      this.anim = true;
       let Pages = this.totalPages;
       if (numPage > 0 && numPage <= Pages) {
         this.actualPage = numPage;
@@ -383,7 +384,9 @@ export default {
       if (numPage == this.actualPage) {
         window.scrollTo(0, 0);
       }
-      this.anim = false;
+      setTimeout(() => {
+        this.anim = false;
+      }, 1500);
     },
     isActive(numPage) {
       return numPage == this.actualPage ? "active" : "";
