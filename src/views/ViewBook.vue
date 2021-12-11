@@ -42,15 +42,30 @@
         >Prestamo
       </button>
     </div>
+    <Confirmation
+      :msg="modal.message"
+      :animation="modal.animation"
+      :successMsg="modal.successMsg"
+      :errorMsg="modal.errorMsg"
+      :finish="modal.finish"
+      :error="modal.error"
+      v-show="modal.visible"
+      @accept="controlLoan"
+      @close="modal.visible = false"
+    />
   </div>
 </template>
  
  <script>
 import moment from "moment";
 import gql from "graphql-tag";
+import Confirmation from "@/components/Confirmation.vue";
 
 export default {
   name: "CreateBook",
+  components:{
+  Confirmation,
+  },
   data() {
     return {
       id: null,
@@ -74,6 +89,15 @@ export default {
       book: {
         poster:
           "https://firebasestorage.googleapis.com/v0/b/proyectociclo4-447aa.appspot.com/o/NotFound.svg?alt=media&token=1d1ae5f3-146d-4edf-bb6a-5fff39c6b96d",
+      },
+      modal: {
+        visible: false,
+        message: "¿Realizar Prestamo?",
+        animation: false,
+        successMsg: "¡Prestamo Hecho!",
+        errorMsg: "¡Algo Fallo!",
+        finish: false,
+        error: false,
       },
     };
   },
@@ -119,6 +143,7 @@ export default {
       if (!this.isAuth) {
         this.$router.push({ name: "Login" });
       } else {
+        this.modal.visible = true;
         this.userId = localStorage.getItem("userId");
         await this.$apollo
           .mutate({
@@ -150,24 +175,29 @@ export default {
           .catch((error) => {
             console.log(error);
           });
-        if (this.book.status == 1 && this.cantlib <= 5) {
-          moment.locale("es-CO");
-          let dateStart = moment().format("L");
-          let dateFinish = moment().add(20, "days").calendar();
-          let loan = {
-            idUser: this.userId.toString(),
-            idBook: this.id,
-            dateStart: dateStart,
-            dateFinish: dateFinish,
-          };
-          await this.createLoan(loan);
-          await this.updateBook();
-          await this.updateUser();
-          this.$router.push({
-            name: "PrintLoan",
-            params: { idLoan: this.loanId, idBook: this.id },
-          });
-        }
+      }
+    },
+    async controlLoan() {
+      this.modal.animation = true;
+      if (this.book.status == 1 && this.cantlib <= 5) {
+        moment.locale("es-CO");
+        let dateStart = moment().format("L");
+        let dateFinish = moment().add(20, "days").calendar();
+        let loan = {
+          idUser: this.userId.toString(),
+          idBook: this.id,
+          dateStart: dateStart,
+          dateFinish: dateFinish,
+        };
+        await this.createLoan(loan);
+        await this.updateBook();
+        await this.updateUser();
+        this.$router.push({
+          name: "PrintLoan",
+          params: { idLoan: this.loanId, idBook: this.id },
+        });
+      } else {
+        this.modal.error = true;
       }
     },
     async createLoan(loan) {
@@ -192,7 +222,7 @@ export default {
           this.loanId = result.data.newLoan.id;
         })
         .catch((error) => {
-          console.log(error);
+          this.modal.error = true;
         });
     },
     async updateBook() {
@@ -219,7 +249,7 @@ export default {
         })
         .then((result) => {})
         .catch((error) => {
-          console.log(error);
+          this.modal.error = true;
         });
     },
     async updateUser() {
@@ -240,7 +270,7 @@ export default {
         })
         .then((result) => {})
         .catch((error) => {
-          console.log(error);
+          this.modal.error = true;
         });
     },
     createPdf() {
@@ -370,7 +400,8 @@ img {
   gap: 0.5rem;
   width: 100%;
 }
-.info span, .info h2{
+.info span,
+.info h2 {
   white-space: nowrap;
 }
 h2 i {

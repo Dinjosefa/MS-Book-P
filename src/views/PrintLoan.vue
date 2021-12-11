@@ -141,7 +141,7 @@ export default {
       if (this.bookStatus && this.loanStatus) {
         this.info.title = this.InventoryDetailById.title;
         this.info.isbn = this.InventoryDetailById.isbn;
-        this.url = `http://localhost:8080/book/${this.info.idBook}/update`;
+        this.url = `http://localhost:8080/book/${this.info.idBook}/user/${this.info.idUser}`;
         this.getQrCode();
         await this.filterLoan();
       }

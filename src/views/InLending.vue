@@ -118,21 +118,26 @@ export default {
       if (this.bookStatus && this.loanStatus) {
         this.books = JSON.parse(JSON.stringify(this.InventoriesDetail));
         this.loans = JSON.parse(JSON.stringify(this.LoansDetail));
-        let theDate = new Date().toLocaleString("es-CO");
+        this.filterLoans = [];
+        for (const key in this.loans) {
+          const loans = this.loans[key];
+          moment.locale("es-CO");
+          let dateFinish = moment(loans.dateFinish, "DD/MM/YYYY");
+          let datePast = moment().startOf("day");
 
-        this.filterLoans = this.loans.filter(
-          (loan) => loan.dateFinish <= theDate
-        );
+          if (dateFinish.isSameOrAfter(datePast)) {
+            this.filterLoans.push(loans);
+          }
+        }
         this.loansF = [];
         for (const key in this.filterLoans) {
           const element = this.filterLoans[key];
-          let elementBook = this.books.find((book) => book.id == element.idBook);
+          let elementBook = this.books.find(
+            (book) => book.id == element.idBook
+          );
           let loan = {
             id: element.id,
             idUser: element.idUser,
-            // user: `${
-            //   this.users.find((user) => user.id == element.idUser).firstname
-            // } ${this.users.find((user) => user.id == element.idUser).lastname}`,
             idBook: element.idBook,
             title: elementBook.title,
             status: elementBook.status,

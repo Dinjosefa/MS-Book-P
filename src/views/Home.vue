@@ -470,16 +470,15 @@ export default {
   border-radius: 2rem;
   color: var(--bg);
   background-color: #ffffff;
-  height: 2.5rem;
+  height: 3rem;
   width: 30vw;
   min-width: 19rem;
   justify-content: space-between;
   overflow: hidden;
-  border: 0.1rem solid var(--border-input);
+  border: 0.2rem solid var(--border-input);
 }
 .browser {
-  font-size: 1rem;
-  color: var();
+  font-size: 1.3rem;
   background-image: none;
   box-shadow: none;
   outline: 0;

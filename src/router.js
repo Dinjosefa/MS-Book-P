@@ -71,17 +71,23 @@ const routes = [
 		path: '/book/:idBook/loan/:idLoan',
 		name: 'PrintLoan',
 		component: () => import('@/views/PrintLoan.vue'),
-		meta: {title: 'Recibo'}
+		meta: { title: 'Recibo' }
 	},
 	{
-	  path: '/:catchAll(.*)',
-	  name: 'NotFound',
+		path: '/book/:idBook/user/:idUser',
+		name: 'ReturnBook',
+		component: () => import('@/views/ReturnBook.vue'),
+		meta: { title: 'Devolución' }
+	},
+	{
+		path: '/:catchAll(.*)',
+		name: 'NotFound',
 		component: () => import('@/views/NotFound.vue'),
-	  meta:{title:'No se Encontro'}
+		meta: { title: 'No se Encontro' }
 	},
 ];
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+	history: createWebHistory(process.env.BASE_URL),
 	routes
 });
 router.beforeEach((to, from, next) => {
