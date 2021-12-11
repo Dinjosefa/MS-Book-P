@@ -235,7 +235,13 @@ export default {
   methods: {
     getData() {
       this.book = JSON.parse(JSON.stringify(this.InventoryDetailById));
+      if(this.book == null || this.book == undefined){
+      this.$router.push({
+          name: "NotFound",
+          params: { catchAll: "NotFound" },
+        });}else{
       this.updateBorder();
+      }
     },
     fileSelected(e) {
       this.file = e.target.files[0];

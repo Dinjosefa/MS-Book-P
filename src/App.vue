@@ -19,6 +19,14 @@ import gql from "graphql-tag";
 
 export default {
   name: "App",
+  /* computed: {
+    is_auth: {
+      get: function () {
+        return this.$route.meta.requiresAuth;
+      },
+      set: function () {},
+    },
+  }, */
   components: {
     Header,
     Footer,
@@ -85,7 +93,7 @@ export default {
       this.isAuth = false;
       this.$router.push({ name: "Home" });
     },
-    async verifySession() {
+    /*  async verifySession() {
       if (this.isAuth) {
         await this.$apollo
           .mutate({
@@ -108,11 +116,11 @@ export default {
             console.log(error);
           });
       }
-    },
+    }, */
   },
-  created() {
+  /* created() {
     this.verifySession();
-  },
+  }, */
 };
 </script>
 <style>

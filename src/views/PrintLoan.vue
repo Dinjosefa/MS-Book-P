@@ -18,7 +18,7 @@
           </div>
         </div>
         <span class="msgs | top"
-          >*Muestre este recibo para reclamar/devolver el libro solicitado</span
+          >*Presente este recibo para reclamar/devolver el libro solicitado</span
         >
       </div>
       <div class="container">
@@ -141,7 +141,7 @@ export default {
       if (this.bookStatus && this.loanStatus) {
         this.info.title = this.InventoryDetailById.title;
         this.info.isbn = this.InventoryDetailById.isbn;
-        this.url = `http://localhost:8080/book/${this.info.idBook}/user/${this.info.idUser}`;
+        this.url = `https://book-p.herokuapp.com/book/${this.info.idBook}/user/${this.info.idUser}`;
         this.getQrCode();
         await this.filterLoan();
       }

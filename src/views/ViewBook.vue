@@ -133,7 +133,14 @@ export default {
   methods: {
     getData() {
       this.book = this.InventoryDetailById;
+      if(this.book == null || this.book == undefined){
+      this.$router.push({
+          name: "NotFound",
+          params: { catchAll: "NotFound" },
+        });
+      }else{
       document.title = this.book.title;
+      }
     },
     cancel() {
       this.$router.push({ name: "Home" });
@@ -184,7 +191,7 @@ export default {
         let dateStart = moment().format("L");
         let dateFinish = moment().add(20, "days").calendar();
         let loan = {
-          idUser: this.userId.toString(),
+          idUser: this.userId,
           idBook: this.id,
           dateStart: dateStart,
           dateFinish: dateFinish,

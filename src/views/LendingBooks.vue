@@ -56,7 +56,7 @@ export default {
       `,
       variables() {
         return {
-          userId: this.$route.params.id.toString(),
+          userId: this.$route.params.id,
         };
       },
       update: (data) => data.loansDetailById,

@@ -1,12 +1,27 @@
 <template>
   <button @click="buttonClicked" v-show="mainButton" class="main-button">{{ buttonTxt }}</button>
+  <Confirmation
+      :msg="modal.message"
+      :animation="modal.animation"
+      :successMsg="modal.successMsg"
+      :errorMsg="modal.errorMsg"
+      :finish="modal.finish"
+      :error="modal.error"
+      v-show="modal.visible"
+      @accept="proccessBook"
+      @close="modal.visible = false"
+    />
 </template>
 
 <script>
+import Confirmation from "@/components/Confirmation.vue";
 import gql from "graphql-tag";
 
 export default {
   name: "ReturnBook",
+  components: {
+    Confirmation,
+  },
   data() {
     return {
       buttonTxt: null,
@@ -22,6 +37,15 @@ export default {
         address: null,
         phone: null,
         cantlib: null,
+      },
+      modal: {
+        visible: false,
+        message: "",
+        animation: false,
+        successMsg: "",
+        errorMsg: "¡Algo Fallo!",
+        finish: false,
+        error: false,
       },
     };
   },
@@ -53,6 +77,13 @@ export default {
         this.InventoryDetailById.status == 2
           ? "Aprobar Prestamo"
           : "Generar Devolución";
+    if(this.InventoryDetailById.status == 2){
+    this.modal.message= "¿Aprobar el Prestamo?";
+    this.modal.successMsg="¡Prestamo Aprobado!";
+    }else{
+    this.modal.message= "¿Devolver el Prestamo?";
+    this.modal.successMsg="¡Libro Devuelto!";
+    }
     }},
     async getDataUser() {
       await this.$apollo
@@ -114,6 +145,11 @@ export default {
         .then((result) => {
         })
         .catch((error) => {
+        this.modal.error = true;
+        setTimeout(() => {
+    this.modal.visible = false;
+    this.$router.push({name: "Home"});
+    }, 2000);
         });
     },
     async saveInfoBooks(newStatus) {
@@ -150,10 +186,20 @@ export default {
             this.$apollo.queries.InventoriesDetail.refetch();
         })
         .catch((error) => {
+        this.modal.error = true;
+        setTimeout(() => {
+    this.modal.visible = false;
+    this.$router.push({name: "Home"});
+    }, 2000);
         });
     },
     buttonClicked() {
-      if (this.InventoryDetailById.status == 2) {
+    this.modal.visible = true;
+      
+    },
+    proccessBook(){
+    this.modal.animation = true;
+    if (this.InventoryDetailById.status == 2) {
         this.provideBook();
       } else {
         this.returnBook();
@@ -161,13 +207,22 @@ export default {
     },
     async provideBook() {
     await this.saveInfoBooks(3);
-    this.$router.push({name: "Home"});
+    this.this.proccessFinal();
     },
     async returnBook() {
     await this.updateUserByAdmin();
     await this.saveInfoBooks(1);
-    this.$router.push({name: "Home"});
+    this.proccessFinal();
     },
+    proccessFinal(){
+    this.animation = false;
+    this.modal.finish = true;
+    setTimeout(() => {
+    this.modal.visible = false;
+    this.$router.push({name: "Home"});
+    }, 2000);
+    }
+
   },
   mounted() {
     this.getDataUser();
@@ -175,5 +230,5 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 </style>

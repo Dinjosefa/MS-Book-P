@@ -49,10 +49,6 @@
 <script>
 import TableLending from "@/components/TableLending.vue";
 import gql from "graphql-tag";
-
-import "@/loans.js";
-import "@/data.js";
-import "@/users.js";
 import moment from "moment";
 
 export default {
@@ -114,7 +110,6 @@ export default {
       return Math.ceil(this.loansF.length / this.elementsPerPage);
     },
     async getData() {
-      // !HACER LA PETICIÓN DE LOS PRESTAMOS
       if (this.bookStatus && this.loanStatus) {
         this.books = JSON.parse(JSON.stringify(this.InventoriesDetail));
         this.loans = JSON.parse(JSON.stringify(this.LoansDetail));
