@@ -100,6 +100,7 @@ export default {
             category
             editorial
             poster
+            status
           }
         }
       `,
